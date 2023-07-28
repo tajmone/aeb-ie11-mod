@@ -1,0 +1,92 @@
+[#compiling]
+= Building from Source
+
+To build the *AEB IE11 Mod* binary from source you'll need to download and install {PureBasic} x86 (32-bit edition) version{nbsp}{pb-version} (or higher).
+
+The reason we're compiling as a 32-bit application is because Activ E-Books are 32-bit applications, so we want to ensure that even users running a 32-bit edition of MS Windows will be able to use the E-Book -- which, obviously, won't work if we built *AEB IE11 Mod* as a 64-bit application.
+
+
+== About PureBasic
+
+{PureBasic} is a commercial, cross-platform (Windows, Linux, OS X and Raspberry Pi) programming language that comes with a full IDE and various developer tools (debugger, profiler, etc.).
+It's been actively developed for over twenty years, comes at a reasonable price and with a lifetime license.
+
+The licensed version can also be used to create Activ E-Book and {AEBCompiler} extensions using the {AEB_API}, since PureBasic can compile DLLs, and the Windows edition already binds most of the WinAPI functions.
+
+
+== PureBasic Free Edition
+
+You _probably_ could (I haven't tested it) build *AEB IE11 Mod* using the free demo edition of PureBasic which,
+https://www.purebasic.com/documentation/mainguide/order.html[according to the documentation^, title="PureBasic Documentation on demo-version"],
+ships with the following limitations:
+
+____
+The demo-version of PureBasic is limited as shown below:
+
+* No DLL can be created
+* you can't use the whole external Win32 API support
+* no development kit for external libraries
+* maximum number of source lines: 800
+____
+
+*AEB IE11 Mod* does use the Win32 API, so I'm not sure whether it can be compiled with the demo version or not.
+
+Also, bear in mind that only the latest release of PureBasic is available as free demo, so if the language introduced breaking changes in the meantime, the source code won't compile without manual fixing.
+As a licensed users, on the other hand, you may download every version of PureBasic that was ever released, so you could just install the same version which I used, thus ensuring that the code will compile out of the box.
+
+
+[#obtain-sources]
+== Obtaining the Sources
+
+To obtain the source code for *AEB IE11 Mod* and the demo E-Books, you can either:
+
+:DownloadZipMenu: menu:Code[Download Zip]
+
+* [.red]#*Download the source code*# via the
+https://github.com/tajmone/aeb-ie11-mod/archive/refs/heads/main.zip[{DownloadZipMenu}^, title="Direct download link of AEB IE11 Mod source code"]
+menu, on navigation bar of the repository landing page.
+That's the preferred choice, since it exports a trimmed-down and purged version of the project, containing only the source files which are strictly necessary, and without the Git repository and its history.
++
+Furthermore, it doesn't require installing {Git}, in case you don't have it and you're not interested in using it.
+
+* [.red]#*Clone the repository*# using {Git}.
+To do so, open the CMD (command prompt) or the BASH shell that ships with Git for Windows, navigate to the folder where you wish to clone the repository, then type:
++
+.................................................
+git clone https://github.com/tajmone/aeb-ie11-mod
+.................................................
+
+Once obtained the source project, you'll find the PureBasic sources in the {src_folder}:
+
+* {aeb-ie11-mod_pb} -- PureBasic source code.
+* `aeb-ie11-mod.pbp` -- PureBasic IDE project settings.
+
+
+== Compiling AEB IE11 Mod
+
+Once you've installed PureBasic, double click on the `aeb-ie11-mod.pbp` project file, which will automatically be opened by the PureBasic IDE (editor).
+The project file already contains all the required compiler settings, so you only have to compile the app via the menu:Compiler[Build all Targets] menu.
+
+The binary output file (`aeb-ie11-mod.exe`) will be generated in `../demo/html/`, instead of the current sources folder, because that's where the HTML contents of the demo E-Book for testing the application are stored:
+
+* `../demo/html/aeb-ie11-mod.exe`
+
+You can now copy the `aeb-ie11-mod.exe` executable and use it in your Activ E-Book projects.
+
+NOTE: You can open the project with either the 32-bit or 64-bit edition of the PureBasic IDE -- it doesn't matter, as long as you've installed the 32-bit edition, since the project is set to use the 32-bit compiler, regardless of the IDE version used to open and edit it.
+
+
+== Compiling the Demo E-Books
+
+There's no need for you to compile the demo E-Books from source, but if you really want to, here are some instructions.
+
+The demo E-Book projects and their assets are stored in the {demo_folder}.
+For a detailed account on these files, refer to the `demo/README.md` document in the repository.
+
+To compile the two demo E-Books you'll need {AEBCompiler}, but first you'll need to compile from source the *AEB IE11 Mod* executable (`demo/html/aeb-ie11-mod.exe`), because it's required by the `Demo AEB IE11 Mod.aep` E-Book -- alternatively, you can obtain `aeb-ie11-mod.exe` by downloading the binary distribution package, and then manually copy it into your local `demo/html/` folder.
+
+Since the Activ E-Book projects in the repository were created on my PC, they contain absolute paths to my machine which won't match your local repository paths -- unfortunately, `.aep` project files are not portable across different machines.
+In order to compile the E-Books on your machine, you'll need to manually update the projects by re-scanning the source folder using your local absolute path to the {html_folder}, and fix other similar issues relating to path differences of E-Book assets (splash screen, icon, etc.).
+
+The main reason I've included the demo E-Books projects in the repository is merely a practical one, i.e. for me to have all files in one place.
+A secondary reason was that sharing the HTML source contents might have been of interest to end users, in case they want to reuse some parts (e.g. the JavaScript snippet for browser detection), and because it would allow them to peek at the `.aep` projects, in case they faced trouble setting up their own E-Book projects using *AEB IE11 Mod*.

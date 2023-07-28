@@ -1,0 +1,58 @@
+#############################################
+#  Activ E-Book Compiler IE11 Mod           #
+#  https://github.com/tajmone/aeb-ie11-mod  #
+#############################################
+
+* text=auto
+
+## Activ E-Book Files
+#####################
+*.aep      binary
+
+
+## PureBasic Files
+##################
+[attr]PureBasic text linguist-language=PureBasic gitlab-language=PureBasic
+*.cfg   text linguist-generated=true gitlab-generated=true
+*.pb    PureBasic
+*.pbf   PureBasic
+*.pbi   PureBasic
+*.pbp   linguist-language=XML linguist-generated=true
+*.pbp   gitlab-language=XML gitlab-generated=true
+
+
+## Shell Scripts
+################
+*.bat   text eol=crlf
+*.com   text eol=crlf
+*.sh    text eol=lf
+*.ps1   text eol=crlf
+
+
+## Repository Configuration
+###########################
+.editorconfig    text eol=lf
+.gitlab-ci.yml   text eol=lf
+.travis.yml      text eol=lf
+.gitattributes   text eol=lf
+.gitconfig       text eol=lf
+.gitignore       text eol=lf
+.gitmodules      text eol=lf
+
+
+## Documentation Files
+######################
+*.adoc       text
+*.asciidoc   text
+*.md         text
+*.txt        text
+
+###############################################################
+#                                                             #
+#    A R C H I V E   E X P O R T - I G N O R E   R U L E S    #
+#                                                             #
+###############################################################
+.editorconfig     export-ignore
+.nojekyll         export-ignore
+/.git*            export-ignore
+/docs-src         export-ignore

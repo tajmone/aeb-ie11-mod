@@ -1,0 +1,149 @@
+= Using AEB IE11 Mod
+
+Using *AEB IE11 Mod* in your own Activ E-Book publications is really easy, you only have to follow a couple of steps, as described in the following sections.
+
+
+[#obtain-binary]
+== Obtaining AEB IE11 Mod
+
+First of all, download the latest precompiled binaries distribution from the repository
+https://github.com/tajmone/aeb-ie11-mod/releases/latest/[_Releases_ page^, title="Go to the releases page at the AEB IE11 Mod repository"]
+ -- i.e. the file named `AEB-IE11-Mod-{revnumber}-binaries.zip`, which contains the precompiled *AEB IE11 Mod* application, this documentation, two demo Activ E-Books and <<batch-helpers,a couple of helper scripts>>.
+
+TIP: If you prefer to build *AEB IE11 Mod* from source, refer to <<compiling>>.
+
+The actual *AEB IE11 Mod* application is the `aeb-ie11-mod.exe` executable file which you'll find inside the precompiled binaries distribution.
+
+
+== E-Book Setup
+
+In order to enable IE11 support in your E-Books, you'll need to add the `aeb-ie11-mod.exe` file to the contents folder of your Activ E-Book project, along with the HTML files, stylesheets, etc., because you need to ensure that the *AEB IE11 Mod* application is being distributed along with your standalone E-Book, so that it can be accessed by the E-Book itself.
+
+.Re-scan Source Folder
+IMPORTANT: After adding `aeb-ie11-mod.exe` to your contents folder, don't forget to re-scan the folder in your Activ E-Book project (using the menu:Edit[Scan Folder...] menu or via the kbd:[Ctrl+D] keyboard shortcut), otherwise it won't be included in the final compiled E-Book.
+
+.AEB IE11 Mod Is 32-bit
+NOTE: Since Activ E-Books are 32-bit applications, *AEB IE11 Mod* is also compiled as a 32-bit application, to ensure that it will work on 32-bit machines too.
+
+[#on-start-str]
+The next step is to tell your E-Book project to launch *AEB IE11 Mod* when the E-Book starts.
+Open the menu:Edit[Add-Ins...] menu, then paste into the menu:On Start[] field the following string (as-is, _verbatim_):
+
+..............................................
+{ebook}\aeb-ie11-mod.exe "{exename}" "{title}"
+..............................................
+
+.Quoted Parameters
+IMPORTANT: Don't forget to include the double-quotes around the parameters, they are required to correctly handle spaces in file paths and the E-Book Title.
+
+.Quotation Marks in E-Book Titles
+WARNING: If your E-Book Title contains straight double quotes (`+++"+++`), you must follow the instructions provided in <<dq-in-title>>, otherwise *AEB IE11 Mod* won't work properly.
+
+Here's a screenshot of the above steps, taken from the `Demo AEB IE11 Mod.aep` project included in the source repository (but not in the binary distribution package):
+
+.Configuring AEB IE11 Mod in your Activ E-Book project
+image::aep-add-ins.png[align="center", role="thumb"]
+
+As you may have noticed, the menu:On Start[] string contains some predefined Activ Variables, which will be expanded to their represented value at run-time, when these parameters are passed to *AEB IE11 Mod*:
+
+[horizontal]
+`{ebook}` :: The directory path where the E-Book is being unpacked.
+Used to locate the `aeb-ie11-mod.exe` executable and invoke it.
+
+`{exename}` :: The full path of the E-Book EXE file.
+Used by *AEB IE11 Mod* to extract the E-Book filename and create the Windows Registry key to enable browser emulation for the E-Book, and then to restart the E-Book.
+
+`{title}` :: The Title of the E-Book, as entered in the menu:E-Book Info[] menu.
+Used by *AEB IE11 Mod* to find the E-Book handle via its window title, in order to close the E-Book.
+
+
+With the above information, provided by the E-Book at start-up, the *AEB IE11 Mod* is able to check whether the E-Book executable is registered as a subkey of `FEATURE_BROWSER_EMULATION` in the Windows Registry, and that it's set to the correct IE version value, and act accordingly.
+
+
+== Suppressing the Restart Dialog
+
+By the default, *AEB IE11 Mod* will display a pop-up dialog to the end user when the E-Book needs to be restarted:
+
+image::restart-dialog.png[align="center"]
+
+The rationale behind this pop-up dialog is to inform the user on the reason why the E-Book is being restarted -- something which he/she will notice if the E-Book shows a splash image at start-up, since the splash (and its progress bar) will be shown twice.
+Without the dialog explaining why the E-Book is being restarted, the end user might feel suspicious about the double launch (although it only occurs the first time the E-Book is opened).
+
+While the splash image was originally intended to show signs of life while the E-Book was loading, with modern hardware E-Book loading happens almost in real time, confining the splash image to a mere aesthetic role (to display your logo, the E-Book cover, etc.).
+
+If you're not using a splash image, you might want to suppress the restart dialog of *AEB IE11 Mod*, since without the splash image the IE11 emulation hack will happen seamlessly, without the end user noticing a thing.
+
+To disable the restart dialog, just append a space separator and the `/Q` (quiet) switch to the string passed in menu:Edit[Add-Ins > On Start] (<<on-start-str,as described here>>):
+
+.................................................
+{ebook}\aeb-ie11-mod.exe "{exename}" "{title}" /Q
+.................................................
+
+
+== Reverting Browser Emulation
+
+During the development stage, you'll probably want to revert your E-Book to it's pristine state, i.e. before *AEB IE11 Mod* enabled IE11 emulation via the Registry.
+To achieve this, all you need to do is delete the Registry key created by *AEB IE11 Mod* for your E-Book.
+
+WARNING: Just _be careful_ when dealing with the Registry.
+Randomly deleting keys, or editing their values, might result in system instability, unexpected behaviors, and even render Windows unusable.
+Avoid experimenting, unless you know what you're doing.
+
+[#batch-helpers]
+Inside the {demo_folder} you'll find two batch helper scripts which can aid you with Registry-related tasks:
+
+* {delete_bat}
+* {show_bat}
+
+The {show_bat} script is just a convenience helper that launches the Windows Registry Editor (*regedit*) at the `FEATURE_BROWSER_EMULATION` key:
+
+.Windows Registry with browser emulation key of demo E-Book selected
+image::regedit.png[align="center", role="thumb"]
+
+Using this script will save you time, since you won't have to navigate through the Registry to find the `FEATURE_BROWSER_EMULATION` key.
+You might want to use this script just once, since the Registry Editor allows you to add key-paths to your Favorites list (via the menu:Favorites[Add to Favorites...] menu), a "`bookmarks`" system of sorts.
+
+Now that you have access to the `FEATURE_BROWSER_EMULATION` entries in the registry, you can manually delete the emulation key of your E-Book.
+Spotting the E-Book key is easy, because it has the same name as your E-Book executable file.
+The `FEATURE_BROWSER_EMULATION` key works on a _per filename_ basis (just the filename, without the full path).
+
+The other script ({delete_bat}) allows you to quickly delete the `FEATURE_BROWSER_EMULATION` Registry key created by the *AEB IE11 Mod* demo E-Book — only the Registry entry for `Demo AEB IE11 Mod.exe` will be affected, nothing else.
+You can reuse this script for you own E-Book projects, you'll just need to edit its last line, by replacing `Demo AEB IE11 Mod.exe` with the filename of your compiled E-Book:
+
+```
+REG DELETE "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION" /v "Demo AEB IE11 Mod.exe"
+```
+
+IMPORTANT: Don't forget to enclose the E-Book filename between double-quotes, as in the script.
+
+Once your adapted script is ready, it will provide a quick and safe way to reset your Activ E-Book to its pristine state, allowing you go through the E-Book "`first run`" procedure multiple times, and check the *AEB IE11 Mod* behavior before and after IE11 emulation is enabled.
+
+TIP: Don't forget that whenever you change the filename of your compiled E-Book (in the {AEBCompiler} project settings, or by renaming the generated E-Book executable), a new registry key will be created, matching the new filename.
+To avoid cluttering your Registry, delete any old keys associated with E-Book filenames that are no longer in use.
+
+
+== License
+
+*AEB IE11 Mod* is a free application, released under the terms of the MIT License, which you'll find included in the repository and distribution packages (source and binary):
+
+* https://github.com/tajmone/aeb-ie11-mod/blob/main/LICENSE[`LICENSE`^, title="View MIT License file"]
+
+This is a very permissive license, it basically allows you to do whatever you want with the *AEB IE11 Mod* source code or its precompiled binary, as long as you honor the license requirements -- i.e. that you include in your work:
+
+* The original copyright notice
+* A copy of the license itself
+
+In practical terms, if you're including the `aeb-ie11-mod.exe` executable in your E-Book, then you must add due credits somewhere in the E-Book (the "`About`" page would be the perfect place) so that the reader can acknowledge that your E-Book is using *AEB IE11 Mod*, and learn who authored the latter, its Copyright status and license.
+Here's an example of how the text should look like:
+
+===============================================
+[.big]#*Activ E-Book Internet Explorer 11 Mod*#
+
+* https://github.com/tajmone/aeb-ie11-mod
+
+.....................
+include::../LICENSE[]
+.....................
+===============================================
+
+NOTE: The link to the repository is not mandatory, but it would be greatly appreciated, so that other Activ E-Book authors might benefit from *AEB IE11 Mod*.

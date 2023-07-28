@@ -1,0 +1,81 @@
+= Troubleshooting
+
+Using *AEB IE11 Mod* should be fairly straightforward, but there might be some edge cases where things turn out to be problematic.
+This section provides useful tips and guidance on how to handle problems.
+
+Bear in mind that *AEB IE11 Mod* will show an error dialog with some useful info about the encountered problem, when something isn't working as expected -- if it can't find the E-Book window handle to shut it down, or can't restart the E-Book after having done so, etc.
+These error dialogs are intended for both E-Book authors and their end users, since they can help the former to fix bad configuration issues and deal with edge cases, and allow the latter to provide some error information in case *AEB IE11 Mod* isn't working as expected on the end user machine (for whatever reason).
+
+[#debugging]
+== Debugging AEB IE11 Mod Parameters
+
+It's possible to force *AEB IE11 Mod* to show a pop-up dialog when invoked, displaying the parameter strings it received.
+Here's an example of how the dialog window looks like:
+
+
+image::debug-dialog.png[align="center"]
+
+
+This can be useful during preparation work, to check that the parameters are being passed correctly between the E-Book and *AEB IE11 Mod*.
+
+To enable this feature, just append a space separator and the `/V` (verbose) switch to the string passed in menu:Edit[Add-Ins > On Start] (<<on-start-str,as described here>>):
+
+.................................................
+{ebook}\aeb-ie11-mod.exe "{exename}" "{title}" /V
+.................................................
+
+
+[#dq-in-title]
+== Double-Quotes in E-Book Titles
+
+If your E-Book title contains double-quotes, the *AEB IE11 Mod* application will fail to work properly due to premature termination of the second parameter, which will be truncated when the inner quotation mark is encountered.
+
+IMPORTANT: *AEB IE11 Mod* needs the E-Book Title to close the E-Book and restart it, after creating the IE11 emulation key.
+In order to close the E-Book, it needs to find its window handle, and the only mean it can do so is through the window title, which is identical to the E-Book title.
+Therefore, it's essential that *AEB IE11 Mod* receives the full and correct E-Book title.
+
+To work around this problem, you have various options:
+
+1. [.red]#*Use curly quotes instead*# -- That's the best solution, i.e. replace the straight double-quote characters (`+++"+++`) in your title with their curly counterparts (`“` and `”`).
+E.g. if your E-Book title is `The Big "Why"`, change it to `The Big “Why”`, via the menu:Edit[E-Book Info...] menu and the menu:Title[] field.
++
+[TIP]
+===================
+To type the curly quotes in {AEBCompiler} forms, you can use using the following
+https://en.wikipedia.org/wiki/Alt_code[Alt codes^, title="Wikipedia page on Alt codes"]:
+
+** kbd:[Alt+0147] -> `“` (opening double quote)
+** kbd:[Alt+0148] -> `”` (closing double quote)
+===================
+
+2. [.red]#*Use single quotes instead*# -- If the title context allows it, you can replace the straight double-quote characters (`+++"+++`) in your title with straight single-quote characters (`+++'+++`).
+E.g. if your E-Book title is `The Big "Why"`, change it to `The Big 'Why'`, via the menu:Edit[E-Book Info...] menu.
+
+3. [.red]#*Drop the quotes altogether*# -- Alternatively, if none of the above solutions is viable, and if the context allows it without loss of meaning, you should consider dropping the quotation marks altogether.
+E.g. if your E-Book title is `The Big "Why"`, change it to `The Big Why`
+
+.Quotation Marks Escaping ... A Nightmare
+[NOTE]
+=====================
+Unfortunately, under MS Windows there's no viable universal way to escape double-quote characters inside quoted strings, when passing around parameters.
+For more information on this convoluted, obscure and complex topic, see:
+
+* https://stackoverflow.com/questions/7760545/escape-double-quotes-in-parameter[^]
+* https://stackoverflow.com/questions/562038/escaping-double-quotes-in-batch-script[^]
+* https://ss64.com/nt/syntax-esc.html[^]
+=====================
+
+
+[#support]
+== Support and Feedback
+
+If you need help, have questions, wish to share your thought and ideas on *AEB IE11 Mod*, or simply desire to get in touch with other Activ E-Book authors -- to announce your publications, or share assets and experiences -- join the *AEB IE11 Mod* repository Discussions:
+
+* https://github.com/tajmone/aeb-ie11-mod/discussions
+
+If you've found a bug in *AEB IE11 Mod*, a typo or grammar error in its documentation, or would like to ask for a new feature, just open an Issue on the repository:
+
+* https://github.com/tajmone/aeb-ie11-mod/issues
+
+This being a free and open source project, I'd like to keep the discussion around *AEB IE11 Mod* public, so that all users may benefit from it.
+If you need to contact me directly, for a communication more private in nature, you can email me at {email} -- just don't expect free private consultation or assistance, since that's what I do for a living.

@@ -1,0 +1,114 @@
+[preface]
+== Introduction
+
+{AEBCompiler} (aka *AEB*) is a commercial application for creating HTML E-Books as a single executable binary file for MS Windows, with advanced protection and registration features, a dedicated scripting language, and the possibility to extend E-Books functionality via custom DLLs and the {AEB_API}.
+
+This amazing tool has been around since 2000 and, unlike other executable E-Book compilers, it's still perfectly functioning with recent MS Windows editions, and in over twenty years I've never had an end user complaint about an E-Book being blocked by their antivirus software.
+
+Unfortunately, E-Books created with the AEB Compiler are displayed using Internet Explorer version 7 -- a very old version of the browser, with limited supported for modern CSS features (and rather quirky too, when it comes to CSS rules).
+Here's where *AEB IE11 Mod* comes to your rescue: by adding to your Activ E-Book contents this small (16{nbsp}KB) binary application, you'll be able to display your E-Books using Internet Explorer version 11 instead.
+
+// Demo Default.exe
+
+Here's a screenshot of the `Demo Default.exe` Activ E-Book example included in the distribution package.
+This E-Book _doesn't_ use the *AEB IE11 Mod*, it was created using the default AEB Compiler behavior and therefore display its contents using Internet Explorer version 7:
+
+.Activ E-Book demo showing default behavior (IE7 mode)
+image::demo-default.png[align="center", role="thumb"]
+
+The JavaScript snippet in the page is detecting the browser as `IE7.x` -- which is the default Internet Explorer version used by Windows when rendering contents through the old
+https://en.wikipedia.org/wiki/Trident_(software)[Trident browser engine^, title="Wikipedia page on Trident engine"]
+(aka *MSHTML*).
+
+// Demo AEB IE11 Mod.exe
+
+And here's a screenshot of the `Demo AEB IE11 Mod.exe` Activ E-Book example (also included in the distribution) which uses the *AEB IE11 Mod* and therefore displays the same exact contents using Internet Explorer version 11 instead:
+
+.Activ E-Book demo using the AEB IE11 Mod (IE11 mode)
+image::demo-ie11.png[align="center", role="thumb"]
+
+The same JavaScript snippet is now detecting the browser as `IE11` -- that's because the *AEB IE11 Mod* forces Windows to emulate the latest version of Internet Explorer.
+
+Notice how in the E-Book using default behavior all CSS3 style elements are being ignored (rounded corners, gradient colors, shadow and font effects).
+
+
+=== The WebBrowser Control and IE
+
+E-Books created with {AEBCompiler} rely on the
+https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/webbrowser-control-overview?view=netframeworkdesktop-4.8[WebBrowser control^, title="WebBrowser Control Overview at MS Learn"]
+to display HTML contents.
+
+The WebBrowser control has been around since Windows 98, and uses the same
+https://en.wikipedia.org/wiki/Trident_(software)[Trident engine^, title="Wikipedia page on Trident engine"]
+(aka *MSHTML*) that powered the old Internet Explorer browser (now superseded by MS Edge, but still shipped with Windows), and therefore closely followed the evolution of IE, in terms of supported features (HTML, CSS, scripting, etc.).
+
+The main problem that MS had to face with the WebBrowser control was that of breaking behavior -- i.e. unlike the Internet Explorer browser, which was expected to embrace the latest features, applications relying on the WebBrowser control required a more conservative approach and were expected to behave exactly the same in the course of time.
+For this reason, MS enforced that, by default, the WebBrowser control should emulate Internet Explorer version 7, when rendering HTML contents.
+
+This was a reasonable choice of default behavior, which prevented applications behavior from breaking down with each major IE update -- remember, all of this was happening in the midst of the
+https://en.wikipedia.org/wiki/Browser_wars["`browser wars era`"^, title="Wikepedia page on 'Browser wars'"]
+(the 90's), where the different browsers were competing with each other in terms of new browser-specific features being added, while also striving to keep-up with real-world website practices and meet unwritten standards; so, breaking changes in browsers behavior were the norm during this period, rather than the exception.
+
+Consider that the
+https://en.wikipedia.org/wiki/Microsoft_Compiled_HTML_Help[CHM Help^, title="Wikipedia page on 'Microsoft Compiled HTML Help'"]
+viewer (*Microsoft HTML Help*) -- which used to be the _de facto_ standard for Windows software documentation -- relied on the WebBrowser control to display contents.
+If the default behavior of the WebBrowser control would switch from IE7 to IE11, most software documentation and CHM E-Books would cease working as expected: their stylesheets would break down miserably, and scripts might produce unexpected errors.
+
+In order to preserve
+https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/compatibility/cc288325(v=vs.85)[HTML documents compatibility^, title="MS Learn » Defining document compatibility"]
+across IE versions, and also to allow applications using the WebBrowser control to benefit from the latest IE features, in the course of time Microsoft adopted various solutions to enforce emulation of specific IE versions --
+such as the
+https://developer.mozilla.org/en-US/docs/Glossary/Doctype[`!DOCTYPE` directive^, title="Mozilla Developer page on Doctype"],
+or the `X-UA-Compatible` HTML meta tag, both aiming to control the IE version and its behavior
+(https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode[quirks^, title="Mozilla Developer page on Quirks Mode"])
+from within the HTML page.
+Unfortunately for us Activ E-Book authors, many of these solution no longer work today, or don't work as expected within the WebBrowser control -- e.g. even though they _might_ enforce correct HTML rendering, they won't affect the IE version being reported by the WebBrowser control, which in turn might jeopardize scripts and CSS hacks targeting specific versions of IE.
+
+The current officially-endorsed solution to enforce a specific IE version on the WebBrowser control is to exploit the `FEATURE_BROWSER_EMULATION` key in the Windows Registry, which allows enforcing emulation of a specific IE version on a _per application_ basis -- which is exactly what *AEB IE11 Mod* does.
+
+I won't enter into details about how the `FEATURE_BROWSER_EMULATION` Registry key works, or the intricate history of the various IE emulation workarounds, their deprecation and alternatives -- it's a rather long topic, behind the scope of this documentation.
+If you wish to learn more, please read the following articles:
+
+* {StrahlArticle} -- by {RickStrahl}, 2011 (updated 2016).
+  An excellent article on the topic, covering the history of the problem all the way up to the current "`Registry hack`" solution.
+  Probably the most cited reference on the topic.
+* https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/general-info/ee330730(v=vs.85)#browser-emulation[Internet Feature Controls » Browser Emulation^] -- at MS Learn.
+  Terse technical facts on `FEATURE_BROWSER_EMULATION`.
+
+
+
+=== How Does AEB IE11 Mod Work?
+
+*AEB IE11 Mod* is small executable which is distributed alongside with the E-Book contents.
+When the E-Book launches (i.e. after the splash image and before the Home page is shown) it invokes the *AEB IE11 Mod* executable, passing to it the full path of the E-Book EXE and the E-Book title as parameters, by exploiting the advanced menu:Add-Ins[On Start] feature of {AEBCompiler}, along with Activ Variables and their run-time expansion.
+
+This allows *AEB IE11 Mod* to obtain all the required info to carry out its work:
+
+* Check if the E-Book has already a `FEATURE_BROWSER_EMULATION` key in the Windows Registry, and that it's correctly set to emulate IE11.
+** If not, create the required registry key, close the E-Book and restart it.
+** If yes, don't do anything and let the E-Book launch normally.
+
+In other words, *AEB IE11 Mod* only needs to do its job _once_: when the E-Book is executed for the first time by the end user (the Registry key is _per user_), or whenever the E-Book EXE is renamed by the end user (different filename, different registry entry).
+
+The reason why the E-Book needs to be restarted, after the IE11 key is added to the registry, is because Windows checks whether the application has a `FEATURE_BROWSER_EMULATION` key only once, when the app is firing up, and configures its IE mode for the entire process session accordingly.
+Therefore, the IE emulation mode of an application can't be changed at run-time, it requires closing and restarting the app, for the changes to be detected and become effective.
+
+Since the *AEB IE11 Mod* has a small footprint, all of the above happens very fast, within a fraction of a second, so the end user experience won't be affected by it.
+As for the E-Book size, the *AEB IE11 Mod* binary is only 16{nbsp}KB, so its presence is negligible in terms of added size to the final E-Book (it's much smaller than the average image).
+
+Here's a screenshot of the Windows Registry Editor showing the key created by the demo E-Book that ships with the binary distribution package:
+
+
+.Registry entry created by the demo E-Book
+image::regedit.png[align="center", role="thumb"]
+
+
+As you can see, now there's a `Demo AEB IE11 Mod.exe` entry under the `FEATURE_BROWSER_EMULATION` key, with value `1101` (IE11 edge mode).
+Only the filename was added, without the full path, so even if the E-Book is moved around, or multiple copies are present, the IE11 emulation hack will still work.
+If the user renames the E-Book EXE file, a new key will be created when the E-Book is launched again, bearing the new filename as its value.
+
+In case you were wondering, the "`Registry hack`" approach _is_ the proper solution to this problem, as recommended by Microsoft.
+*AEB IE11 Mod* doesn't do anything shady in the background to achieve IE11 emulation; it's tackling the problem they way it should be, nothing less, nothing more.
+
+As you can see from the previous screenshot, under the `FEATURE_BROWSER_EMULATION` Registry key are present various other applications -- including Acrobat Reader, Google Drive and One Drive.
+That's because use of the WebBrowser control is still fairly widespread, and any modern application that uses it will most likely enable IE11 emulation (or some other specific IE version) via the Registry, during installation or initial setup.

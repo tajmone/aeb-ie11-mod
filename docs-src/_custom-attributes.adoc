@@ -1,0 +1,21 @@
+// Applications & software:
+:AEBCompiler: pass:q[https://www.ebookcompiler.com/[*Activ E-Book Compiler*^, title="Activ E-Book Compiler website"]]
+:AEB_API: pass:q[https://github.com/tajmone/aeb-api[*AEB API*^, title="Activ E-Book API repository at GitHub"]]
+:PureBasic: pass:q[https://www.purebasic.com/[*PureBasic*^, title="PureBasic website"]]
+:Git: pass:q[https://gitforwindows.org/[*Git*^, title="Git for Windows website"]]
+
+// People:
+:tajmone: https://github.com/tajmone/[Tristano Ajmone^, title="Tristano Ajmone's profile on GitHub"]
+:RickStrahl: https://github.com/RickStrahl/[Rick Strahl^, title="Rick Strahl's profile on GitHub"]
+:SunilTanna: https://www.suniltanna.com[Sunil Tanna^, title="Sunil Tanna's website"]
+
+// Articles:
+:StrahlArticle: pass:q[https://weblog.west-wind.com/posts/2011/May/21/Web-Browser-Control-Specifying-the-IE-Version[_Web Browser Control & Specifying the IE Version_^, title="Read article at Rick Strahl's Weblog"]]
+
+// Repo links:
+:aeb-ie11-mod_pb: pass:q[https://github.com/tajmone/aeb-ie11-mod/blob/master/src/aeb-ie11-mod.pb[`aeb-ie11-mod.pb`^, title="View 'aeb-ie11-mod.pb' source file at AEB IE11 Mode repository"]]
+:delete_bat: pass:q[https://github.com/tajmone/aeb-ie11-mod/blob/master/demo/delete-registry-key.bat[`delete-registry-key.bat`^, title="View 'delete-registry-key.bat' script at AEB IE11 Mode repository"]]
+:demo_folder: pass:q[https://github.com/tajmone/aeb-ie11-mod/tree/main/demo/[`demo/` folder^, title="Navigate to 'demo/' folder of AEB IE11 Mod repository"]]
+:html_folder: pass:q[https://github.com/tajmone/aeb-ie11-mod/tree/main/demo/html/[`demo/html/` folder^, title="Navigate to 'demo/html/' folder of AEB IE11 Mod repository"]]
+:show_bat: pass:q[https://github.com/tajmone/aeb-ie11-mod/blob/master/demo/show-registry-entries.bat[`show-registry-entries.bat`^, title="View 'show-registry-entries.bat' script at AEB IE11 Mode repository"]]
+:src_folder: pass:q[https://github.com/tajmone/aeb-ie11-mod/tree/main/src/[`src/` folder^, title="Navigate to 'src/' folder of AEB IE11 Mod repository"]]

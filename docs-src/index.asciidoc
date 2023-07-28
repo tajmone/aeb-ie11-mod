@@ -1,0 +1,67 @@
+= Activ E-Book Internet Explorer 11 Mod
+:author: Tristano Ajmone
+:email: <tajmone@gmail.com>
+:pb-version: 6.02
+:revdate: 2023-07-28
+:revnumber: 1.0.0
+:revremark!:
+:version-label: Version
+:lang: en
+:doctype: book
+// Metadata:
+:keywords: activ e-book compiler, executable ebooks, browser emulation, ie11, webbrowser control, css3
+:description: pass:q[*AEB IE11 Mod* is a free utility to enable Internet Explorer 11 (CSS3) emulation in Activ E-Book Compiler publications.]
+// TOC Settings:
+:toclevels: 5
+:toc: left
+// Sections Numbering:
+:partnums!:
+:sectnums!:
+:sectnumlevels: 2
+// Cross References:
+:idprefix:
+:xrefstyle: full
+:chapter-refsig: Ch.
+:section-refsig: Sec.
+:appendix-refsig: App.
+// Misc Settings:
+:data-uri:
+:experimental:
+:icons: font
+:linkattrs:
+:reproducible:
+:sectanchors:
+:example-caption!:
+// Paths:
+:imagesdir: img
+
+include::_custom-attributes.adoc[]
+
+// Preamble
+// ========
+
+// AEB IE11 Mod badge
+image:https://img.shields.io/badge/AEB_IE11_Mod-1.0.0-yellow[title="Current Activ E-Book Internet Explorer 11 Mod version", link=https://github.com/tajmone/aeb-ie11-mod]{nbsp}
+// License badge
+image:https://img.shields.io/badge/License-MIT_License-blue[title="Activ E-Book Internet Explorer 11 Mod license: MIT License", link=https://github.com/tajmone/aeb-ie11-mod/blob/main/LICENSE]{nbsp}
+// Activ E-Book Compiler badge
+image:https://img.shields.io/badge/Activ_E-&#45;Book_Compiler-4.22_Plus-yellow[title="Activ E-Book Compiler version", link=https://www.ebookcompiler.com]{nbsp}
+// PureBasic badge
+image:https://img.shields.io/badge/PureBasic-{pb-version}_x86-yellow[title="PureBasic version", link=https://www.purebasic.com]{nbsp}
+
+
+*Activ E-Book Internet Explorer 11 Mod* (aka *AEB IE11 Mod*) is a small and free utility that enables Internet Explorer 11 support in your Activ E-Books, allowing partial access to modern HTML5 and CSS3 features.
+
+* https://github.com/tajmone/aeb-ie11-mod[^, title="AEB IE11 Mod source repository at GitHub"]
+
+
+
+include::acknowledgments.adoc[]
+
+include::intro.adoc[]
+
+include::usage.adoc[]
+
+include::trouble.adoc[]
+
+include::compile.adoc[]

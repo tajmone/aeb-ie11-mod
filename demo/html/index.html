@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Activ E-Book Internet Explorer 11 Mod Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Internet Explorer Version</h1>
+  <p>Internet Explorer version detected via JavaScript: <span class="red">
+    <script type="text/javascript">
+    //userAgent in IE7 WinXP returns: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 2.0.50727)
+    //userAgent in IE11 Win7 returns: Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko
+
+    if (navigator.userAgent.indexOf('MSIE') != -1)
+      var detectIEregexp = /MSIE (\d+\.\d+);/ //test for MSIE x.x
+    else // if no "MSIE" string in userAgent
+      var detectIEregexp = /Trident.*rv[ :]*(\d+\.\d+)/ //test for rv:x.x or rv x.x where Trident string exists
+
+    if (detectIEregexp.test(navigator.userAgent)) { //if some form of IE
+      var ieversion=new Number(RegExp.$1) // capture x.x portion and store as a number
+      if (ieversion>=12)
+        document.write("IE12")
+      else if (ieversion>=11)
+        document.write("IE11")
+      else if (ieversion>=10)
+        document.write("IE10")
+      else if (ieversion>=9)
+        document.write("IE9")
+      else if (ieversion>=8)
+        document.write("IE8")
+      else if (ieversion>=7)
+        document.write("IE7.x")
+      else if (ieversion>=6)
+        document.write("IE6.x")
+      else if (ieversion>=5)
+        document.write("IE5.x")
+    }
+    else{
+      document.write("n/a")
+    }
+    </script>
+  </span></p>
+  <h1>CSS3 Test</h1>
+  <p>The following box exploits CSS3 features:</p>
+  <div id="ShadowBox"><span id="ShadowBoxLabel">CSS3</span></div>
+</body>
+</html>

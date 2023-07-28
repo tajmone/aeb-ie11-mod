@@ -1,0 +1,5 @@
+[acknowledgments]
+== Acknowledgments
+
+I wish to thank {RickStrahl} for his most helpful article {StrahlArticle},
+which was crucial in the creation of *AEB IE11 Mod*, and for his personal support to my questions on the topic; and {SunilTanna}, creator of {AEBCompiler}, for his impeccable customer support over two decades, and for all the email exchanges on the topics of this document.

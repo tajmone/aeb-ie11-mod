@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://www.purebasic.com/namespace" version="1.0" creator="PureBasic 6.02 LTS (Windows - x86)">
+  <section name="config">
+    <options closefiles="1" openmode="0" name="Active E-Book IE11 Mod"/>
+    <comment>Enable Internet Explorer 11 support in Active E-Books.</comment>
+  </section>
+  <section name="data">
+    <explorer view="D:\PureBasic\" pattern="0"/>
+    <log show="1"/>
+    <lastopen date="2023-07-15 15:38" user="P.K.Dick" host="RANXEROX"/>
+  </section>
+  <section name="files">
+    <file name="aeb-ie11-mod.pb">
+      <config load="0" scan="1" panel="1" warn="1" lastopen="1" sortindex="1" panelstate="+"/>
+      <fingerprint md5="d3800b0da9a546ae1b95df5b86881306"/>
+    </file>
+  </section>
+  <section name="targets">
+    <target name="Default Target" enabled="1" default="1">
+      <inputfile value="aeb-ie11-mod.pb"/>
+      <outputfile value="..\demo\html\aeb-ie11-mod.exe"/>
+      <compiler version="PureBasic 6.02 LTS (Windows - x86)"/>
+      <executable value="..\demo\html\aeb-ie11-mod.exe"/>
+      <options xpskin="1" user="1" optimizer="1"/>
+      <temporaryexe value="source"/>
+    </target>
+  </section>
+</project>
